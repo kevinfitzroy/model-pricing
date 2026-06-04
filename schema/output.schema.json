@@ -1,0 +1,53 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://kevinfitzroy.github.io/fact-check/schema/output.schema.json",
+  "title": "事实性核验工作流 · 通用结构化产出 schema",
+  "description": "所有 case 派生层产出的通用骨架。每个 case 可在 items[].fields 里放题材专属字段,或在 cases/<case>/ 下放更严格的 case 专属 schema。核心契约:每个被核验单元都带 source_url / source_type / evidence_ref / confidence(或 verdict)。",
+  "type": "object",
+  "required": ["case", "snapshot_date", "items"],
+  "properties": {
+    "case": { "type": "string", "description": "case 标识,如 \"model-pricing\"、\"article-claim-check\"。" },
+    "snapshot_date": { "type": "string", "format": "date", "description": "整个产出的快照日期,提醒非实时。" },
+    "input_ref": { "type": ["string", "null"], "description": "本次核验的输入(如文章 URL / 产品名 / 传闻原文),可空。" },
+    "assumptions": {
+      "type": "object",
+      "description": "派生层用到的换算/口径假设(如汇率、单位换算、判定标准),供 reviewer 复算。",
+      "additionalProperties": true
+    },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/item" }
+    }
+  },
+  "definitions": {
+    "item": {
+      "type": "object",
+      "required": ["subject", "source_type", "evidence_ref", "confidence"],
+      "properties": {
+        "subject": { "type": "string", "description": "被核验单元:精确对象名 / 断言原句 / 规格项(R4)。" },
+        "kind": { "type": "string", "enum": ["metric", "claim", "spec", "entity", "event"], "description": "单元类型,随 case 而定。" },
+        "fields": {
+          "type": "object",
+          "description": "题材专属内容。如价格 case 放 input/output/cache;断言 case 放 statement/context;规格 case 放各参数。原始值与归一化值都放这里。",
+          "additionalProperties": true
+        },
+        "verdict": {
+          "type": ["string", "null"],
+          "enum": ["supported", "refuted", "misleading", "unverifiable", "opinion", null],
+          "description": "断言核验类 case 用:支持/反驳/误导/无法证实/观点(观点不判真假)。非断言类 case 留 null。"
+        },
+        "source_url": { "type": ["string", "null"], "description": "一手/官方来源 URL(R3)。" },
+        "source_type": { "type": "string", "enum": ["official", "primary", "secondary"], "description": "official/primary=一手;secondary=二手,仅交叉验证(R3)。" },
+        "secondary_crosscheck_url": { "type": ["string", "null"], "description": "可选:交叉验证用的二手来源。" },
+        "evidence_ref": { "type": "string", "description": "指向 evidence/ 的引用,如 \"evidence/openai/2026-06-04.md#gpt-5.5\"(R2)。" },
+        "fetch_date": { "type": ["string", "null"], "format": "date" },
+        "confidence": {
+          "type": "string",
+          "enum": ["confirmed", "needs_verification", "conflict", "unknown"],
+          "description": "数据可信度(R5/R8)。"
+        },
+        "notes": { "type": "string", "description": "口径假设、冲突说明、观点标注等。" }
+      }
+    }
+  }
+}

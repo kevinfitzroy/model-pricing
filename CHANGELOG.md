@@ -8,6 +8,21 @@
 
 ---
 
+## 2026-06-04 — 重构:方法论抽象为通用「事实性核验工作流」
+
+把原本绑在"模型价格"这一题材上的方法论**抽象成与题材无关的通用工作流**,模型价格降级为其中一个 case。
+
+- 新增 `WORKFLOW.md`(通用方法论,泛化自原 SPEC 的八条硬规则/三阶段/输出契约)、通用 `REVIEW.md`、`schema/output.schema.json`、`cases/` 结构与 `_TEMPLATE`。
+- 原 `SPEC.md` 拆分:通用部分 → `WORKFLOW.md`;价格专属部分 → `cases/model-pricing/CASE.md`(删除 SPEC.md)。
+- 现有产物(evidence/、pricing.json/csv、analysis.md、ROSTER.md、REVIEW_REPORT.md、schema.json、看板 index.html)迁入 `cases/model-pricing/`。
+- 预制三个 case 模板:`article-claim-check`(文章断言核验)、`news-rumor-check`(新闻/传闻核实)、`product-spec-check`(产品规格核验)。
+- 新增 `/factcheck` skill(`.claude/skills/factcheck/`)作为触发入口。
+- Pages 首页 `index.html` 重写为"工作流 + case 画廊";定价看板降为 `cases/model-pricing/` 子页。
+- 仓库改名 `model-pricing` → `fact-check`。
+- 发起:用户(evan)—— "方法论独立出来做成工作流,适配不同 case"。
+
+> 以下为重构前、model-pricing 作为独立项目时的历史留痕。
+
 ## 2026-06-04 — 初始 SPEC 成型(第一步)
 
 - 确立三步工作流:定义 → 执行(证据先行)→ agent review。

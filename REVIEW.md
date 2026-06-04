@@ -1,84 +1,44 @@
-# REVIEW — 第三步验收清单(由 review agent 执行)
+# REVIEW — 通用审计清单(第三步,reviewer 执行)
 
-> 你是 **review agent**。你的职责:**不信任**第二步的产出,逐条机械核验,把问题揪出来。
-> 默认怀疑。任何"看起来对"但无法验证的,判 **FAIL** 并记录,不要替它圆场。
-> 你**不修数据**,只出报告 `REVIEW_REPORT.md`。修由第二步的执行方去做。
+> 你是**独立 reviewer**。职责:**不信任**第二步产出,逐条机械核验,把问题揪出来。默认怀疑;无法验证的判 **FAIL**,不替它圆场。
+> 你**不改数据**(或所有改动全部留痕),只出 `cases/<case>/REVIEW_REPORT.md`。
+> 本清单与题材无关;每个 case 的题材专属检查项见该 case 的 `CASE.md`「审计补充」段。
 
-输入文件:`SPEC.md`、`schema.json`、`ROSTER.md`、`pricing.json`、`pricing.csv`、`evidence/`、`README.md`、`analysis.md`、`CHANGELOG.md`。
+先读:`WORKFLOW.md`、目标 case 的 `CASE.md`、`schema/output.schema.json`、该 case 的结构化产出 + `evidence/` + `analysis.md`。
 
----
+## A. 结构与 schema(机器先跑)
+- **A1** 结构化产出能被 `schema/output.schema.json` + case 专属 schema 校验通过。
+- **A2** 人读视图(CSV 等)与机器源逐项一致。
+- **A3** 有 `snapshot_date`;每条记录有 `fetch_date`。
+- **A4** 每条记录的 `evidence_ref` 指向的文件/锚点真实存在(无死链)。
 
-## A. 结构与 schema 检查(机器可做,先跑)
+## B. 溯源(对抗幻觉核心,逐条逐结论)
+- **B1 证据存在** — 每个结论的 `evidence_ref` 能定位到 `evidence/` 一条逐字引用。
+- **B2 原文匹配** — 证据原文里**确实出现该结论的值/原句**(数值或字符串匹配)。证据里没有的 = 幻觉 → FAIL。
+- **B3 来源一手** — `source_type=official/primary` 的 `source_url` 确属一手/官方;非一手而标成一手 → FAIL。
+- **B4 加工可复算** — 任何换算/归一化能用原始值 + 已声明规则重算一致(R6)。算不出却给了值 → FAIL。
 
-- [ ] **A1** `pricing.json` 能被 `schema.json` 校验通过(字段、枚举、必填、类型全合规)。
-- [ ] **A2** `pricing.csv` 的行与 `pricing.json` 一致(无多出/缺失的模型,数字一致)。
-- [ ] **A3** 顶层有 `snapshot_date`;每条记录有 `fetch_date`。
-- [ ] **A4** 每条记录都有 `evidence_ref`;`evidence_ref` 指向的文件/锚点**真实存在**(不是死链)。
+## C. 身份与范围(R1/R4)
+- **C1 范围有据** — 被核验单元清单来自联网核实,非凭记忆。
+- **C2 对象真实** — 抽样联网确认对象真实存在/现状属实,尤其训练知识里没有的新事物,警惕编造或记错。
+- **C3 精确身份** — 用精确标识(精确 id / 精确原句 / 精确型号),无泛称冒充。
+- **C4 范围合规** — 全部落在 CASE.md 声明的范围内,无越界条目。
 
-## B. 溯源检查(对抗幻觉的核心,逐条逐数字)
+## D. 完整性与诚实性(R5/R8)
+- **D1 未知显式** — 查不到的字段 `null` + `unknown`/`needs_verification`,无估算冒充。
+- **D2 冲突未抹** — `conflict` 项 notes 写清分歧;抽查有无"本该冲突却静默二选一"。
+- **D3 维度齐全** — CASE.md 要求的维度/断言没被漏;来源有、产出却缺的标为缺口。
 
-对 `pricing.json` 里**每一个非 null 的价格数字**:
-
-- [ ] **B1 · 证据存在** — 它的 `evidence_ref` 能定位到 `evidence/` 里一条逐字引用。
-- [ ] **B2 · 数字匹配** — 该证据原文里**确实出现这个数字**(对 `original_value` 做字符串/数值匹配)。证据里没有的数字 = 幻觉,判 FAIL。
-- [ ] **B3 · 来源官方** — `source_url` 属于该供应商的**官方域名**(见下表)。非官方而 `source_type=official` → FAIL。
-- [ ] **B4 · 归一化可复算** — 用 `original_value` + `original_unit`(+ 若 CNY 则用 `currency_fx` 里的汇率)**手动重算** `usd_per_1m`,与文件值在合理误差内一致(SPEC §3)。算不出却给了非 null 值 → FAIL。
-- [ ] **B5 · per_char 不硬换** — 原单位是 `per_char` 且换算假设不明时,`usd_per_1m` 应为 null 并标 `needs_verification`;若硬填了值 → FAIL。
-
-**官方域名参考表**(可在核验时联网确认最新官方域名,不限于此):
-
-| 供应商 | 期望官方域名(示例) |
-|---|---|
-| OpenAI | openai.com / platform.openai.com |
-| Anthropic | anthropic.com / docs.anthropic.com / claude.com |
-| Google Gemini | ai.google.dev / cloud.google.com (Vertex) |
-| DeepSeek | deepseek.com / api-docs.deepseek.com / platform.deepseek.com |
-| xAI (Grok) | x.ai / docs.x.ai |
-| Mistral | mistral.ai |
-| 阿里通义 Qwen | aliyun.com / bailian.console.aliyun.com / help.aliyun.com |
-| 字节豆包 Doubao | volcengine.com |
-| 月之暗面 Kimi | moonshot.cn / platform.moonshot.cn |
-| 智谱 GLM | bigmodel.cn / zhipuai.cn |
-
-## C. 名册与身份检查(R1 / R4)
-
-- [ ] **C1 · 名册有据** — `ROSTER.md` 里每个纳入模型都有官方来源 URL + 日期,不是凭记忆列的。
-- [ ] **C2 · 模型真实存在** — **抽样**(至少每家 1 个、新发布型号必查)联网确认 model_id 是真实在售型号;特别警惕训练知识里没有的新型号(如较晚发布的版本)是否被编造或记错。
-- [ ] **C3 · 精确到快照** — 没有用"GPT-4o"这种泛称冒充精确 model_id;有多快照价差时已注明取哪个。
-- [ ] **C4 · 范围合规** — 全是文本对话模型;没混入 embedding/图像/语音/微调等 v1 范围外条目。
-
-## D. 完整性与诚实性检查(R5 / R8)
-
-- [ ] **D1 · 未知显式** — 查不到的字段是 `null` + `confidence` 为 `unknown`/`needs_verification`,**没有用估算值冒充已知**。
-- [ ] **D2 · 冲突未抹** — 凡 `confidence=conflict` 的,notes 写清了分歧的两个来源;反过来,抽查有无"本该冲突却被静默二选一"的情况。
-- [ ] **D3 · 多维齐全** — 该有的价格维度没被漏(尤其 `cache_read`、`cache_write` 分档、`batch_*`、`context_tiers`);供应商页面明明有、数据里却缺,标记为缺口。
-
-## E. 事实层 / 分析层隔离检查(R7)
-
-- [ ] **E1 · 物理分开** — 对比/排名/结论只出现在 `analysis.md`,没渗进 `pricing.json`/`evidence/`。
-- [ ] **E2 · 结论有据** — `analysis.md` 每条结论(如"X 比 Y 便宜")都能指回事实表的具体数字,且该数字已过 B 组检查。脑补的比较 → FAIL。
-- [ ] **E3 · 假设透明** — 汇率、字符↔token 等换算假设在 README 写明,分析层的比较建立在这些已声明假设上。
+## E. 事实层 / 分析层隔离(R7)
+- **E1 物理分开** — 对比/判断/结论只在 `analysis.md`,未渗入证据层/结构化产出。
+- **E2 结论有据** — analysis 每条结论指回已过 B 组的事实;脑补结论 → FAIL。
+- **E3 假设透明** — 换算、口径、判定标准等假设已写明。
 
 ## F. 独立抽样复抓(最强核验,必做)
+- **F1** 随机抽 N=3~5 个单元,**自己联网重新取证**,与 evidence/ + 产出比对;实质不一致 → 该条 FAIL,提示是否整体重做。
+- **F2** 检查 `snapshot_date`/`fetch_date` 时效;证据明显过旧则提示时效风险。
 
-- [ ] **F1** 随机抽 **N=3~5** 个模型,**自己联网重新抓**官方定价页,与 `evidence/` + `pricing.json` 比对。出现实质不一致(数字对不上、来源不对) → 该条 FAIL,并提示是否整体重抓。
-- [ ] **F2** 抽查 `snapshot_date` / `fetch_date` 是否新近;若证据明显比快照日期旧很多,提示时效风险。
+## 输出 `REVIEW_REPORT.md`
+总判定(PASS / FAIL / PASS-WITH-ISSUES)+ 统计 + A–F 逐组结果(FAIL 列出具体单元+字段+原因)+ 修正清单(若改了,每条附依据)+ 仍阻塞/缺口清单 + F 组复抓记录。
 
----
-
-## 输出格式 `REVIEW_REPORT.md`
-
-```
-# REVIEW REPORT — <date>
-## 总判定:PASS / FAIL / PASS-WITH-ISSUES
-## 统计:模型 N 个,数字 M 个;通过 X,失败 Y,存疑 Z
-## 逐组结果
-- A: pass/fail + 说明
-- B: ...(列出每个 FAIL 的具体 model_id + 字段 + 原因)
-- C/D/E/F: ...
-## 必修问题(blocker)清单
-## 建议(非阻塞)清单
-## F 组独立复抓记录(抽了哪几个、各自比对结果)
-```
-
-判定准则:**B / C / F 任一出现 FAIL = 整体 FAIL**(溯源和真实性是底线);D/E 的问题视严重度记 blocker 或建议。
+判定准则:**B / C / F 任一 FAIL = 整体 FAIL**(溯源与真实性是底线);D/E 视严重度记 blocker 或建议。

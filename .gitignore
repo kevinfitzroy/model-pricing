@@ -1,4 +1,6 @@
-# 本机 Claude Code harness 配置(含绝对路径的状态上报 hooks),不公开
-.claude/
-# 项目内 agent 指令(语音/AR 工作流约定),与公开数据集主题无关
+# 本机 harness 配置(含绝对路径的状态上报 hooks),不公开
+.claude/settings.json
+.claude/settings.local.json
+# 但 .claude/skills/ 要入库(factcheck skill 是框架的一部分,可移植)
+# 项目内 agent 指令(语音/AR 工作流约定),与公开框架主题无关
 CLAUDE.md
