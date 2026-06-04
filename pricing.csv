@@ -1,0 +1,25 @@
+provider,model_id,original_currency,input_orig,cache_read_orig,output_orig,input_usd_per_1m,cache_read_usd_per_1m,output_usd_per_1m,batch_input_usd_per_1m,batch_output_usd_per_1m,context_window,source_type,confidence,notes
+OpenAI,gpt-5.5,USD,5.0,0.50,30.0,5.0,0.50,30.0,2.50,15.0,,official,confirmed,旗舰
+OpenAI,gpt-5.5-pro,USD,30.0,,180.0,30.0,,180.0,15.0,90.0,,official,confirmed,无cached价
+OpenAI,gpt-5.4,USD,2.50,0.25,15.0,2.50,0.25,15.0,1.25,7.50,,official,confirmed,性价比主力
+Anthropic,claude-opus-4-8,USD,5.0,0.50,25.0,5.0,0.50,25.0,2.50,12.50,1000000,official,confirmed,旗舰;cache写5m6.25/1h10;新分词器多吃≤35%token
+Anthropic,claude-sonnet-4-6,USD,3.0,0.30,15.0,3.0,0.30,15.0,1.50,7.50,1000000,official,confirmed,cache写5m3.75/1h6
+Anthropic,claude-haiku-4-5,USD,1.0,0.10,5.0,1.0,0.10,5.0,0.50,2.50,,official,confirmed,cache写5m1.25/1h2
+Google,gemini-3.1-pro-preview,USD,2.0,0.20,12.0,2.0,0.20,12.0,1.0,6.0,,official,confirmed,价为≤200k档;>200k:in4/out18/cache0.40
+Google,gemini-3.5-flash,USD,1.50,0.15,9.0,1.50,0.15,9.0,0.75,4.50,,official,confirmed,
+Google,gemini-3-flash-preview,USD,0.50,0.05,3.0,0.50,0.05,3.0,0.25,1.50,,official,confirmed,
+DeepSeek,deepseek-v4-flash,USD,0.14,0.0028,0.28,0.14,0.0028,0.28,,,1000000,official,confirmed,input=cachemiss;cache_read=cachehit
+DeepSeek,deepseek-v4-pro,USD,0.435,0.003625,0.87,0.435,0.003625,0.87,,,,official,confirmed,独立重抓确认0.435/0.87为常态价无促销;0.435即促销到期后官方价
+xAI,grok-4.3,USD,1.25,,2.50,1.25,,2.50,,,1000000,official,confirmed,cached/batch未取到
+Mistral,mistral-large-3,USD,0.5,,1.5,0.5,,1.5,,,,official,confirmed,独立重抓行列正确;Large3真实低于Medium3.5
+Mistral,mistral-medium-3.5,USD,1.5,,7.5,1.5,,7.5,,,,official,confirmed,见large-3
+Mistral,mistral-small-4,USD,0.1,,0.3,0.1,,0.3,,,,official,confirmed,
+Alibaba (Qwen),qwen3-max,USD,1.2,,6.0,1.2,,6.0,,,,official,confirmed,国际站基础档≤32K$1.2/$6;32K-128K$2.4/$12;128K-252K$3/$15;CN站CNY待补
+Alibaba (Qwen),qwen3.5-flash,USD,0.1,,0.4,0.1,,0.4,,,,official,confirmed,国际站flat
+Zhipu (GLM),glm-5.1,USD,1.4,0.26,4.4,1.4,0.26,4.4,,,,official,confirmed,Z.ai国际站;当前旗舰;CN站CNY待补
+Zhipu (GLM),glm-5,USD,1.0,0.20,3.2,1.0,0.20,3.2,,,,official,confirmed,Z.ai国际站
+Zhipu (GLM),glm-4.6,USD,0.6,0.11,2.2,0.6,0.11,2.2,,,,official,confirmed,Z.ai国际站;上一代对照
+Moonshot (Kimi),kimi-k2.6,CNY,6.50,1.10,27.00,0.9601,0.1625,3.9879,,,262144,official,confirmed,CN站CNY按FX6.77;in=cachemiss
+ByteDance (Doubao),Doubao-Seed-2.0-pro,CNY,3.2,,16.0,0.4726,,2.3632,,,,secondary,needs_verification,官方JS未取证;二手起价待核
+ByteDance (Doubao),Doubao-Seed-2.0-lite,CNY,0.6,,3.6,0.0886,,0.5317,,,,secondary,needs_verification,同pro
+ByteDance (Doubao),Doubao-Seed-2.0-mini,CNY,0.2,,2.0,0.0295,,0.2954,,,,secondary,needs_verification,同pro

@@ -1,0 +1,355 @@
+{
+  "snapshot_date": "2026-06-04",
+  "currency_fx": {
+    "CNY": {
+      "to_usd": 0.1477,
+      "as_of": "2026-06-03",
+      "source": "https://www.exchange-rates.org/exchange-rate-history/usd-cny-2026 (USD/CNY=6.7684 → 1 CNY≈0.1477 USD)"
+    }
+  },
+  "_notes": [
+    "USD 原生供应商(OpenAI/Anthropic/Google/DeepSeek/xAI/Mistral)usd_per_1m 即官方原值。",
+    "Qwen/GLM 取自其【国际站(Singapore / Z.ai)USD 价】,与中国站 CNY 价是不同产品,中国站 CNY 价待补采。",
+    "Kimi 取自中国站 CNY 价,按 currency_fx 换算 USD。Doubao 仅有二手数据,全部 needs_verification。",
+    "事实层=本文件+evidence/;分析/排名见 analysis.md(R7)。"
+  ],
+  "models": [
+    {
+      "provider": "OpenAI", "model_id": "gpt-5.5", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 5.0, "usd_per_1m": 5.0},
+        "cache_read": {"original_value": 0.50, "usd_per_1m": 0.50},
+        "output": {"original_value": 30.0, "usd_per_1m": 30.0},
+        "batch_input": {"original_value": 2.50, "usd_per_1m": 2.50},
+        "batch_output": {"original_value": 15.0, "usd_per_1m": 15.0}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://developers.openai.com/api/docs/pricing",
+      "source_type": "official", "evidence_ref": "evidence/openai/2026-06-04.md",
+      "confidence": "confirmed", "notes": "当前旗舰。"
+    },
+    {
+      "provider": "OpenAI", "model_id": "gpt-5.5-pro", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 30.0, "usd_per_1m": 30.0},
+        "output": {"original_value": 180.0, "usd_per_1m": 180.0},
+        "batch_input": {"original_value": 15.0, "usd_per_1m": 15.0},
+        "batch_output": {"original_value": 90.0, "usd_per_1m": 90.0}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://developers.openai.com/api/docs/pricing",
+      "source_type": "official", "evidence_ref": "evidence/openai/2026-06-04.md",
+      "confidence": "confirmed", "notes": "高精度档,无 cached input 价。"
+    },
+    {
+      "provider": "OpenAI", "model_id": "gpt-5.4", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 2.50, "usd_per_1m": 2.50},
+        "cache_read": {"original_value": 0.25, "usd_per_1m": 0.25},
+        "output": {"original_value": 15.0, "usd_per_1m": 15.0},
+        "batch_input": {"original_value": 1.25, "usd_per_1m": 1.25},
+        "batch_output": {"original_value": 7.50, "usd_per_1m": 7.50}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://developers.openai.com/api/docs/pricing",
+      "source_type": "official", "evidence_ref": "evidence/openai/2026-06-04.md",
+      "confidence": "confirmed", "notes": "性价比主力。"
+    },
+    {
+      "provider": "Anthropic", "model_id": "claude-opus-4-8", "modality_scope": "text",
+      "context_window": 1000000,
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 5.0, "usd_per_1m": 5.0},
+        "cache_read": {"original_value": 0.50, "usd_per_1m": 0.50},
+        "cache_write_5m": {"original_value": 6.25, "usd_per_1m": 6.25},
+        "cache_write_1h": {"original_value": 10.0, "usd_per_1m": 10.0},
+        "output": {"original_value": 25.0, "usd_per_1m": 25.0},
+        "batch_input": {"original_value": 2.50, "usd_per_1m": 2.50},
+        "batch_output": {"original_value": 12.50, "usd_per_1m": 12.50}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "source_type": "official", "evidence_ref": "evidence/anthropic/2026-06-04.md",
+      "confidence": "confirmed",
+      "notes": "旗舰。1M 上下文标准价。注:4.7+ 新分词器,同样文本可能多吃至多 35% token(影响实际成本非单价)。"
+    },
+    {
+      "provider": "Anthropic", "model_id": "claude-sonnet-4-6", "modality_scope": "text",
+      "context_window": 1000000,
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 3.0, "usd_per_1m": 3.0},
+        "cache_read": {"original_value": 0.30, "usd_per_1m": 0.30},
+        "cache_write_5m": {"original_value": 3.75, "usd_per_1m": 3.75},
+        "cache_write_1h": {"original_value": 6.0, "usd_per_1m": 6.0},
+        "output": {"original_value": 15.0, "usd_per_1m": 15.0},
+        "batch_input": {"original_value": 1.50, "usd_per_1m": 1.50},
+        "batch_output": {"original_value": 7.50, "usd_per_1m": 7.50}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "source_type": "official", "evidence_ref": "evidence/anthropic/2026-06-04.md",
+      "confidence": "confirmed", "notes": "1M 上下文标准价。"
+    },
+    {
+      "provider": "Anthropic", "model_id": "claude-haiku-4-5", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 1.0, "usd_per_1m": 1.0},
+        "cache_read": {"original_value": 0.10, "usd_per_1m": 0.10},
+        "cache_write_5m": {"original_value": 1.25, "usd_per_1m": 1.25},
+        "cache_write_1h": {"original_value": 2.0, "usd_per_1m": 2.0},
+        "output": {"original_value": 5.0, "usd_per_1m": 5.0},
+        "batch_input": {"original_value": 0.50, "usd_per_1m": 0.50},
+        "batch_output": {"original_value": 2.50, "usd_per_1m": 2.50}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://platform.claude.com/docs/en/about-claude/pricing",
+      "source_type": "official", "evidence_ref": "evidence/anthropic/2026-06-04.md",
+      "confidence": "confirmed", "notes": "性价比档。"
+    },
+    {
+      "provider": "Google", "model_id": "gemini-3.1-pro-preview", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 2.0, "usd_per_1m": 2.0},
+        "cache_read": {"original_value": 0.20, "usd_per_1m": 0.20},
+        "output": {"original_value": 12.0, "usd_per_1m": 12.0},
+        "batch_input": {"original_value": 1.0, "usd_per_1m": 1.0},
+        "batch_output": {"original_value": 6.0, "usd_per_1m": 6.0}
+      },
+      "context_tiers": [
+        {"threshold_tokens": 200000, "prices": {
+          "input": {"original_value": 4.0, "usd_per_1m": 4.0},
+          "cache_read": {"original_value": 0.40, "usd_per_1m": 0.40},
+          "output": {"original_value": 18.0, "usd_per_1m": 18.0},
+          "batch_input": {"original_value": 2.0, "usd_per_1m": 2.0},
+          "batch_output": {"original_value": 9.0, "usd_per_1m": 9.0}
+        }}
+      ],
+      "fetch_date": "2026-06-04", "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "source_type": "official", "evidence_ref": "evidence/google-gemini/2026-06-04.md",
+      "confidence": "confirmed",
+      "notes": "prices=prompts<=200k;context_tiers[0]=prompts>200k。另有 context-cache 存储费 $4.50/1M-tokens/hour(非 per-token 输入价)。名称含 Preview。"
+    },
+    {
+      "provider": "Google", "model_id": "gemini-3.5-flash", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 1.50, "usd_per_1m": 1.50},
+        "cache_read": {"original_value": 0.15, "usd_per_1m": 0.15},
+        "output": {"original_value": 9.0, "usd_per_1m": 9.0},
+        "batch_input": {"original_value": 0.75, "usd_per_1m": 0.75},
+        "batch_output": {"original_value": 4.50, "usd_per_1m": 4.50}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "source_type": "official", "evidence_ref": "evidence/google-gemini/2026-06-04.md",
+      "confidence": "confirmed", "notes": "另有 cache 存储费 $1.00/1M-tokens/hour。"
+    },
+    {
+      "provider": "Google", "model_id": "gemini-3-flash-preview", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 0.50, "usd_per_1m": 0.50},
+        "cache_read": {"original_value": 0.05, "usd_per_1m": 0.05},
+        "output": {"original_value": 3.0, "usd_per_1m": 3.0},
+        "batch_input": {"original_value": 0.25, "usd_per_1m": 0.25},
+        "batch_output": {"original_value": 1.50, "usd_per_1m": 1.50}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "source_type": "official", "evidence_ref": "evidence/google-gemini/2026-06-04.md",
+      "confidence": "confirmed", "notes": "input 含 text/image/video 同价。名称含 Preview。"
+    },
+    {
+      "provider": "DeepSeek", "model_id": "deepseek-v4-flash", "modality_scope": "text",
+      "context_window": 1000000,
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 0.14, "usd_per_1m": 0.14},
+        "cache_read": {"original_value": 0.0028, "usd_per_1m": 0.0028},
+        "output": {"original_value": 0.28, "usd_per_1m": 0.28}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "source_type": "official", "evidence_ref": "evidence/deepseek/2026-06-04.md",
+      "confidence": "confirmed",
+      "notes": "input=cache miss;cache_read=cache hit。旧 id deepseek-chat/reasoner 于 2026-07-24 弃用,对应本模型非思考/思考模式。"
+    },
+    {
+      "provider": "DeepSeek", "model_id": "deepseek-v4-pro", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 0.435, "usd_per_1m": 0.435},
+        "cache_read": {"original_value": 0.003625, "usd_per_1m": 0.003625},
+        "output": {"original_value": 0.87, "usd_per_1m": 0.87}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://api-docs.deepseek.com/quick_start/pricing",
+      "source_type": "official", "evidence_ref": "evidence/deepseek/2026-06-04.md",
+      "confidence": "confirmed",
+      "notes": "input=cache miss;cache_read=cache hit。第三步独立重抓确认:官方页 0.435/0.87 为常态价,无促销横幅。此前二手所称 75% off 实为『到期后成为官方价(原价 1/4)』,即 0.435 即促销到期后的常态价(非涨回 1.74/3.48);今已过 2026-05-31 仍为 0.435。"
+    },
+    {
+      "provider": "xAI", "model_id": "grok-4.3", "modality_scope": "text",
+      "context_window": 1000000,
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 1.25, "usd_per_1m": 1.25},
+        "output": {"original_value": 2.50, "usd_per_1m": 2.50},
+        "cache_read": {"original_value": null, "usd_per_1m": null, "confidence": "unknown"},
+        "batch_input": {"original_value": null, "usd_per_1m": null, "confidence": "unknown"}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://docs.x.ai/docs/models",
+      "source_type": "official", "evidence_ref": "evidence/xai-grok/2026-06-04.md",
+      "confidence": "confirmed",
+      "notes": "旗舰。input/output 确认($1.25/$2.50)。第三步两次独立重抓 docs.x.ai/docs/models 确认该页确无 cached input 列与 batch 列 → cached/batch 保持 null+unknown(R5,未猜)。二手称 Grok 4.20=$2/$6,但官方 models 页 grok-4.20-* 实为 $1.25/$2.50,以官方为准(R3)。x.ai/api 抓取 403。"
+    },
+    {
+      "provider": "Mistral", "model_id": "mistral-large-3", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 0.5, "usd_per_1m": 0.5},
+        "output": {"original_value": 1.5, "usd_per_1m": 1.5}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://mistral.ai/pricing/",
+      "source_type": "official", "evidence_ref": "evidence/mistral/2026-06-04.md",
+      "confidence": "confirmed",
+      "notes": "第三步独立重抓核对行列对应,非抓取错位:Large 3 ($0.5/$1.5) 确实比 Medium 3.5 ($1.5/$7.5) 便宜,是 Mistral 对新一代 Large 3 的真实激进定价。注:部分二手站对旧快照 'Large 3 2512' 标 $2/$6,以官方现价为准。"
+    },
+    {
+      "provider": "Mistral", "model_id": "mistral-medium-3.5", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 1.5, "usd_per_1m": 1.5},
+        "output": {"original_value": 7.5, "usd_per_1m": 7.5}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://mistral.ai/pricing/",
+      "source_type": "official", "evidence_ref": "evidence/mistral/2026-06-04.md",
+      "confidence": "confirmed", "notes": "第三步独立重抓确认行列正确(见 large-3 说明);Medium 3.5 确为 $1.5/$7.5。"
+    },
+    {
+      "provider": "Mistral", "model_id": "mistral-small-4", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 0.1, "usd_per_1m": 0.1},
+        "output": {"original_value": 0.3, "usd_per_1m": 0.3}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://mistral.ai/pricing/",
+      "source_type": "official", "evidence_ref": "evidence/mistral/2026-06-04.md",
+      "confidence": "confirmed", "notes": ""
+    },
+    {
+      "provider": "Alibaba (Qwen)", "model_id": "qwen3-max", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 1.2, "usd_per_1m": 1.2},
+        "output": {"original_value": 6.0, "usd_per_1m": 6.0}
+      },
+      "context_tiers": [
+        {"threshold_tokens": 32768, "prices": {
+          "input": {"original_value": 2.4, "usd_per_1m": 2.4},
+          "output": {"original_value": 12.0, "usd_per_1m": 12.0}
+        }},
+        {"threshold_tokens": 131072, "prices": {
+          "input": {"original_value": 3.0, "usd_per_1m": 3.0},
+          "output": {"original_value": 15.0, "usd_per_1m": 15.0}
+        }}
+      ],
+      "fetch_date": "2026-06-04", "source_url": "https://www.alibabacloud.com/help/en/model-studio/models",
+      "source_type": "official", "evidence_ref": "evidence/alibaba-qwen/2026-06-04.md",
+      "confidence": "confirmed",
+      "notes": "国际站(Singapore)USD,按【输入上下文长度】阶梯。prices=基础档 0–32K($1.2/$6);context_tiers[0]=32K–128K($2.4/$12);context_tiers[1]=128K–252K($3/$15)。第三步独立重抓取得精确断点。中国站 CNY 价仍待补采(JS 渲染未取到)。"
+    },
+    {
+      "provider": "Alibaba (Qwen)", "model_id": "qwen3.5-flash", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 0.1, "usd_per_1m": 0.1},
+        "output": {"original_value": 0.4, "usd_per_1m": 0.4}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://www.alibabacloud.com/help/en/model-studio/models",
+      "source_type": "official", "evidence_ref": "evidence/alibaba-qwen/2026-06-04.md",
+      "confidence": "confirmed", "notes": "国际站 USD,flat 价。"
+    },
+    {
+      "provider": "Zhipu (GLM)", "model_id": "glm-5.1", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 1.4, "usd_per_1m": 1.4},
+        "cache_read": {"original_value": 0.26, "usd_per_1m": 0.26},
+        "output": {"original_value": 4.4, "usd_per_1m": 4.4}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://docs.z.ai/guides/overview/pricing",
+      "source_type": "official", "evidence_ref": "evidence/zhipu-glm/2026-06-04.md",
+      "confidence": "confirmed", "notes": "Z.ai 国际站 USD。当前旗舰(非 GLM-4.6)。中国站 CNY 价待补采。"
+    },
+    {
+      "provider": "Zhipu (GLM)", "model_id": "glm-5", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 1.0, "usd_per_1m": 1.0},
+        "cache_read": {"original_value": 0.20, "usd_per_1m": 0.20},
+        "output": {"original_value": 3.2, "usd_per_1m": 3.2}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://docs.z.ai/guides/overview/pricing",
+      "source_type": "official", "evidence_ref": "evidence/zhipu-glm/2026-06-04.md",
+      "confidence": "confirmed", "notes": "Z.ai 国际站 USD。"
+    },
+    {
+      "provider": "Zhipu (GLM)", "model_id": "glm-4.6", "modality_scope": "text",
+      "original_currency": "USD", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 0.6, "usd_per_1m": 0.6},
+        "cache_read": {"original_value": 0.11, "usd_per_1m": 0.11},
+        "output": {"original_value": 2.2, "usd_per_1m": 2.2}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://docs.z.ai/guides/overview/pricing",
+      "source_type": "official", "evidence_ref": "evidence/zhipu-glm/2026-06-04.md",
+      "confidence": "confirmed", "notes": "Z.ai 国际站 USD。上一代,留作对照。"
+    },
+    {
+      "provider": "Moonshot (Kimi)", "model_id": "kimi-k2.6", "modality_scope": "text",
+      "context_window": 262144,
+      "original_currency": "CNY", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 6.50, "usd_per_1m": 0.9601},
+        "cache_read": {"original_value": 1.10, "usd_per_1m": 0.1625},
+        "output": {"original_value": 27.00, "usd_per_1m": 3.9879}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://platform.kimi.com/docs/pricing/chat-k26",
+      "source_type": "official", "evidence_ref": "evidence/moonshot-kimi/2026-06-04.md",
+      "confidence": "confirmed",
+      "notes": "中国站 CNY,按 FX 6.77 换算。input=cache miss;cache_read=cache hit。当前旗舰。"
+    },
+    {
+      "provider": "ByteDance (Doubao)", "model_id": "Doubao-Seed-2.0-pro", "modality_scope": "text",
+      "original_currency": "CNY", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 3.2, "usd_per_1m": 0.4726},
+        "output": {"original_value": 16.0, "usd_per_1m": 2.3632}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://www.volcengine.com/docs/82379/1544106",
+      "source_type": "secondary", "evidence_ref": "evidence/bytedance-doubao/2026-06-04.md",
+      "confidence": "needs_verification",
+      "notes": "⚠️ 官方页 JS 渲染未取证,值来自二手搜索摘要,'起'价含阶梯。必须第三步官方核实。"
+    },
+    {
+      "provider": "ByteDance (Doubao)", "model_id": "Doubao-Seed-2.0-lite", "modality_scope": "text",
+      "original_currency": "CNY", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 0.6, "usd_per_1m": 0.0886},
+        "output": {"original_value": 3.6, "usd_per_1m": 0.5317}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://www.volcengine.com/docs/82379/1544106",
+      "source_type": "secondary", "evidence_ref": "evidence/bytedance-doubao/2026-06-04.md",
+      "confidence": "needs_verification", "notes": "同 pro:二手,待官方核实。"
+    },
+    {
+      "provider": "ByteDance (Doubao)", "model_id": "Doubao-Seed-2.0-mini", "modality_scope": "text",
+      "original_currency": "CNY", "original_unit": "per_1M_tokens",
+      "prices": {
+        "input": {"original_value": 0.2, "usd_per_1m": 0.0295},
+        "output": {"original_value": 2.0, "usd_per_1m": 0.2954}
+      },
+      "fetch_date": "2026-06-04", "source_url": "https://www.volcengine.com/docs/82379/1544106",
+      "source_type": "secondary", "evidence_ref": "evidence/bytedance-doubao/2026-06-04.md",
+      "confidence": "needs_verification", "notes": "同 pro:二手,待官方核实。"
+    }
+  ]
+}

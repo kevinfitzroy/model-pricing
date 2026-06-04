@@ -1,0 +1,157 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://example.local/model-pricing/schema.json",
+  "title": "model-pricing dataset (v1, text-chat only)",
+  "description": "派生层 pricing.json 的字段字典。每条记录 = 一个(provider, model_id)的定价。所有价格数字必须可经 evidence_ref 追溯到 evidence/ 原文。归一化规则见 SPEC.md §3。",
+  "type": "object",
+  "required": ["snapshot_date", "currency_fx", "models"],
+  "properties": {
+    "snapshot_date": {
+      "type": "string",
+      "format": "date",
+      "description": "整个数据集的快照日期(YYYY-MM-DD)。提醒读者这非实时。"
+    },
+    "currency_fx": {
+      "type": "object",
+      "description": "USD 归一化用到的汇率假设(分析层假设,reviewer 可据此复算)。",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["to_usd", "as_of", "source"],
+        "properties": {
+          "to_usd": { "type": "number", "description": "1 单位该币种 = 多少 USD" },
+          "as_of": { "type": "string", "format": "date" },
+          "source": { "type": "string", "description": "汇率来源 URL" }
+        }
+      },
+      "examples": [{ "CNY": { "to_usd": 0.138, "as_of": "2026-06-04", "source": "https://..." } }]
+    },
+    "models": {
+      "type": "array",
+      "items": { "$ref": "#/definitions/modelEntry" }
+    }
+  },
+  "definitions": {
+    "modelEntry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "provider", "model_id", "modality_scope",
+        "original_currency", "original_unit", "prices",
+        "fetch_date", "source_url", "source_type", "confidence"
+      ],
+      "properties": {
+        "provider": { "type": "string", "description": "供应商显示名,如 \"OpenAI\"、\"Anthropic\"。" },
+        "model_id": { "type": "string", "description": "精确 API model id(R4),如 \"gpt-4o-2024-08-06\"、\"deepseek-chat\"。" },
+        "model_display_name": { "type": "string", "description": "给人看的名字,可选。" },
+        "model_snapshot": {
+          "type": ["string", "null"],
+          "description": "若该 model_id 对应某个带日期快照,记日期/版本;无则 null。"
+        },
+        "modality_scope": {
+          "type": "string",
+          "enum": ["text"],
+          "description": "v1 固定为 text(文本对话)。"
+        },
+        "context_window": { "type": ["integer", "null"], "description": "上下文窗口(tokens)。" },
+        "max_output_tokens": { "type": ["integer", "null"] },
+
+        "original_currency": { "type": "string", "enum": ["USD", "CNY", "EUR", "other"] },
+        "original_unit": {
+          "type": "string",
+          "enum": ["per_1M_tokens", "per_1K_tokens", "per_char", "per_1M_char", "other"],
+          "description": "来源页面使用的原始计价单位(R6)。"
+        },
+
+        "prices": {
+          "type": "object",
+          "description": "各价格维度。每个维度是一个 priceCell;不适用/未知的维度可省略或填 null cell。",
+          "additionalProperties": false,
+          "properties": {
+            "input": { "$ref": "#/definitions/priceCell" },
+            "output": { "$ref": "#/definitions/priceCell" },
+            "cache_read": { "$ref": "#/definitions/priceCell" },
+            "cache_write_5m": { "$ref": "#/definitions/priceCell" },
+            "cache_write_1h": { "$ref": "#/definitions/priceCell" },
+            "cache_write": {
+              "$ref": "#/definitions/priceCell",
+              "description": "供应商只有单一缓存写档时用这个;分档时用 _5m/_1h。"
+            },
+            "batch_input": { "$ref": "#/definitions/priceCell" },
+            "batch_output": { "$ref": "#/definitions/priceCell" }
+          }
+        },
+
+        "context_tiers": {
+          "type": ["array", "null"],
+          "description": "上下文阈值阶梯价(如 >200k tokens 单价跳变)。无阶梯则 null。",
+          "items": {
+            "type": "object",
+            "required": ["threshold_tokens", "prices"],
+            "properties": {
+              "threshold_tokens": {
+                "type": "integer",
+                "description": "该档生效的 token 阈值下界(如 200000 表示超过 200k 适用本档)。"
+              },
+              "prices": {
+                "type": "object",
+                "description": "该档下的 priceCell 集合,结构同上面的 prices。"
+              }
+            }
+          }
+        },
+
+        "effective_date": {
+          "type": ["string", "null"],
+          "format": "date",
+          "description": "该价格的官方生效日(若页面写明),否则 null。"
+        },
+        "fetch_date": { "type": "string", "format": "date", "description": "本条抓取日期。" },
+        "source_url": { "type": "string", "description": "官方定价页 URL(R3)。" },
+        "source_type": {
+          "type": "string",
+          "enum": ["official", "secondary"],
+          "description": "official=官方页/文档;secondary=聚合站等,仅交叉验证(R3)。"
+        },
+        "secondary_crosscheck_url": {
+          "type": ["string", "null"],
+          "description": "可选:用于交叉验证的二手来源。"
+        },
+        "evidence_ref": {
+          "type": "string",
+          "description": "指向 evidence/ 的引用,如 \"evidence/openai/2026-06-04.md#gpt-4o\"。整条记录或每个 priceCell 都可带;至少整条要有。(R2)"
+        },
+        "confidence": {
+          "type": "string",
+          "enum": ["confirmed", "needs_verification", "conflict", "unknown"],
+          "description": "confirmed=官方明确;needs_verification=有疑点待核;conflict=多来源打架(R8);unknown=查不到(R5)。"
+        },
+        "notes": { "type": "string", "description": "口径假设、冲突说明、换算备注等。" }
+      }
+    },
+
+    "priceCell": {
+      "type": "object",
+      "description": "单个价格维度。original_* 来自证据原文;*_usd_per_1m 是归一化派生值。",
+      "additionalProperties": false,
+      "required": ["original_value"],
+      "properties": {
+        "original_value": {
+          "type": ["number", "null"],
+          "description": "来源原始数值(原币种、原单位);未知填 null。"
+        },
+        "usd_per_1m": {
+          "type": ["number", "null"],
+          "description": "归一化到 USD / 1M tokens 的派生值;无法换算(如 per_char 假设不明)填 null。"
+        },
+        "evidence_ref": {
+          "type": ["string", "null"],
+          "description": "可选:精确到该数字的证据锚点。"
+        },
+        "confidence": {
+          "type": ["string", "null"],
+          "enum": ["confirmed", "needs_verification", "conflict", "unknown", null]
+        }
+      }
+    }
+  }
+}
